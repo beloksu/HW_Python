@@ -31,7 +31,7 @@ try:
             except StaleElementReferenceException:
                 print(
                     f"Попытка {attempt + 1}: поле '{name}' недоступно."
-                    )
+                )
                 if attempt == 2:
                     raise Exception(
                         f"Не удалось ввести значение в поле '{name}' после "
@@ -62,12 +62,15 @@ try:
 
     print("Ожидание поля Zip code...")
     zip_code_field = wait.until(
-        EC.visibility_of_element_located((By.NAME, "zip-code"))
+        EC.visibility_of_element_located((By.ID, "zip-code"))
     )
     zip_code_border_color = zip_code_field.value_of_css_property(
         "border-color")
-    assert zip_code_border_color == "rgb(255, 0, 0)", (
-        "Поле Zip code не красное!"
+
+    print(f"Цвет границы поля Zip code: {zip_code_border_color}")
+
+    assert zip_code_border_color == "rgb(245, 194, 199)", (
+        "Поле Zip code не подсвечено правильным оттенком красного!"
     )
 
     fields_to_check = [
@@ -78,10 +81,11 @@ try:
     for field_name in fields_to_check:
         print(f"Ожидание поля {field_name}...")
         field = wait.until(
-            EC.visibility_of_element_located((By.NAME, field_name))
+            EC.visibility_of_element_located((By.ID, field_name))
         )
         border_color = field.value_of_css_property("border-color")
-        assert border_color == "rgb(0, 128, 0)", (
+        print(f"Цвет границы поля {field_name}: {border_color}")
+        assert border_color == "rgb(186, 219, 204)", (
             f"Поле {field_name} не зеленое!"
         )
 
